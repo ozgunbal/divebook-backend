@@ -1,13 +1,16 @@
 const { Dive } = require('./../models');
 
 const getDives = (req, res, next) => {
-    Dive.find()
+    Dive.find({user: req.cookies.userid})
         .then(dives => res.status(200).send(dives))
         .catch(next);
 };
 
 const addDive = (req, res, next) => {
-    const newDive = new Dive(req.body);
+    const newDive = new Dive({
+        ...req.body,
+        user: req.cookies.userid
+    });
     newDive.save()
         .then(result => res.status(201).send(result))
         .catch(next);
@@ -15,8 +18,6 @@ const addDive = (req, res, next) => {
 
 const updateDiveById = (req, res, next) => {
     const { diveId } = req.params;
-    console.log(diveId);
-    console.log(req.body);
     Dive.findOneAndUpdate({ _id: diveId}, { $set: req.body })
         .then(result => res.status(201).send(result))
         .catch(next);
