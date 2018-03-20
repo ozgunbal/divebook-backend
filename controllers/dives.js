@@ -18,7 +18,7 @@ const addDive = (req, res, next) => {
 
 const updateDiveById = (req, res, next) => {
     const { diveId } = req.params;
-    Dive.findOneAndUpdate({ _id: diveId}, { $set: req.body })
+    Dive.findOneAndUpdate({ _id: diveId}, { $set: req.body }, {new: true})
         .then(result => res.status(201).send(result))
         .catch(next);
 };
