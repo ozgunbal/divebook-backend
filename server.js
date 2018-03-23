@@ -14,7 +14,7 @@ mongoose.connect(process.env.DB_URL);
 const passport = require('passport');
 
 const { diveRouter, authRouter } = require('./routes');
-const port = process.env.SERVER_PORT || 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 
 /**
