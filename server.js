@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,7 +14,7 @@ mongoose.connect(process.env.DB_URL);
 const passport = require('passport');
 
 const { diveRouter, authRouter } = require('./routes');
-const port = process.env.SERVER_PORT;
+const port = process.env.SERVER_PORT || 5000;
 const app = express();
 
 /**
@@ -24,6 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json());
 app.use(cookieParser());
 

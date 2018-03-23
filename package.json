@@ -2,9 +2,13 @@
   "name": "divebook-backend",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "8.9.1"
+  },
   "main": "index.js",
   "scripts": {
     "setup": "git clone https://github.com/ozgunbal/divebook.git client && npm i && cd client && npm i",
+    "postsetup": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"./node_modules/.bin/nodemon server.js\" \"cd client && npm start\""
   },
