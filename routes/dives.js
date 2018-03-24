@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const passport = require('passport');
 const { dives } = require('./../controllers');
 const {
     getDives,
@@ -8,11 +9,11 @@ const {
 } = dives;
 
 router.route('/')
-    .get(getDives)
-    .post(addDive);
+    .get(passport.authenticate('jwt'), getDives)
+    .post(passport.authenticate('jwt'), addDive);
 
 router.route('/:diveId')
-    .put(updateDiveById)
-    .delete(removeDiveById);
+    .put(passport.authenticate('jwt'), updateDiveById)
+    .delete(passport.authenticate('jwt'), removeDiveById);
 
 module.exports = router;

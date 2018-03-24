@@ -1,7 +1,7 @@
 const { Dive } = require('./../models');
 
 const getDives = (req, res, next) => {
-    Dive.find({user: req.cookies.userid})
+    Dive.find({user: req.user._id})
         .then(dives => res.status(200).send(dives))
         .catch(next);
 };
@@ -9,7 +9,7 @@ const getDives = (req, res, next) => {
 const addDive = (req, res, next) => {
     const newDive = new Dive({
         ...req.body,
-        user: req.cookies.userid
+        user: req.user._id
     });
     newDive.save()
         .then(result => res.status(201).send(result))

@@ -1,4 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
+const { ExtractJwt, Strategy } = require('passport-jwt');
+const JwtStrategy = Strategy;
 
 const { User } = require('./../models');
 
@@ -56,6 +58,22 @@ module.exports = (passport) => {
                 // Successful
                 return done(null, user);
             }).catch(err => done(err));
+    }))
+
+    /**
+     * JWT Auth 
+     */
+    passport.use('jwt', new JwtStrategy({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+        secretOrKey: process.env.JWT_SECRET,
+    }, (jwtPayload, next) => {
+        User.findById(jwtPayload.id)
+            .then(user => {
+                // Returns Unathorized, no user found
+                if (!user) return next(null, false);
+                // Successful
+                return next(null, user);
+            }).catch(err => next(err));
     }))
 
     /**
